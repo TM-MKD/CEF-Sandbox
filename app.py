@@ -164,21 +164,31 @@ if uploaded_file is None:
     st.info("Please upload an Excel file to begin.")
     st.stop()
 
-# ===================== PARSE FILE =====================
-raw_df = pd.read_excel(uploaded_file, header=None)
-block_list = split_blocks(raw_df)
+# ===================== PARSE FILE (SINGLE TABLE VERSION) =====================
+
+df = pd.read_excel(uploaded_file)
+df.columns = df.columns.str.strip()
 
 score_map = {"YES": 1, "Neither YES or NO": 0.5, "NO": 0}
+
+# Identify question columns
+question_cols = [c for c in df.columns if str(c).startswith("Q")]
+
+# Convert responses to numeric scores
+for col in question_cols:
+    df[col] = df[col].map(score_map)
+
+# Create block number per coach automatically
+df["Block_Number"] = df.groupby("Full Name").cumcount() + 1
+
+# Create block name column
+df["Block_Name"] = "Block " + df["Block_Number"].astype(str)
+
+# Now build blocks dictionary dynamically
 blocks = {}
 
-for i, block in enumerate(block_list, start=1):
-    block.columns = block.columns.str.strip()
-    question_cols = [c for c in block.columns if str(c).startswith("Q")]
-
-    for col in question_cols:
-        block[col] = block[col].map(score_map)
-
-    blocks[f"Block {i}"] = block
+for block_name in sorted(df["Block_Name"].unique()):
+    blocks[block_name] = df[df["Block_Name"] == block_name].reset_index(drop=True)
 
 # ===================== SELECTIONS =====================
 first_block = next(iter(blocks.values()))
