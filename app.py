@@ -30,7 +30,7 @@ with col1:
 
 with col2:
     st.markdown(
-        "<h1 style='margin-bottom:0;'>MK Dons – Coach Evaluation Framework</h1>",
+        "<h1 style='margin-bottom:0;'>MK Dons – CEF SANDBOX</h1>",
         unsafe_allow_html=True
     )
 
