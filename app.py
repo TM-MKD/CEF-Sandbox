@@ -15,7 +15,7 @@ import os
 
 # ===================== PAGE CONFIG =====================
 st.set_page_config(
-    page_title="MK Dons – Coach Evaluation Framework",
+    page_title="MK Dons – CEF SANDBOX",
     layout="wide"
 )
 
