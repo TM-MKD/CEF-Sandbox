@@ -430,7 +430,7 @@ def generate_pdf():
 
     safe_style = []
 
-    for c, q in enumerate(QUESTION_TEXT):
+    for c, q in enumerate(SAFEGUARDING_QUESTIONS):
         score = person_data[f"Q{q}"]
         colour = get_safeguarding_colour(score)
         safe_style.append(("BACKGROUND", (c,0), (c,0), colour))
