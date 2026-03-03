@@ -326,7 +326,7 @@ def generate_pdf():
         ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
         ("BACKGROUND", (0,0), (-1,-1), MK_LIGHT_GREY),
         ("LEFTPADDING", (0,0), (-1,-1), 80),
-        ("RIGHTPADDING", (0,0), (-1,-1), 10),
+        ("RIGHTPADDING", (0,0), (-1,-1), 20),
         ("TOPPADDING", (0,0), (-1,-1), 10),
         ("BOTTOMPADDING", (0,0), (-1,-1), 10),
     ]))
@@ -424,7 +424,7 @@ def generate_pdf():
 
     safe_table = Table(
         [safe_row],
-        colWidths=[2.6 * inch] * len(SAFEGUARDING_QUESTIONS),
+        colWidths=[1.56 * inch] * len(SAFEGUARDING_QUESTIONS),
         rowHeights=0.8 * inch
     )
 
