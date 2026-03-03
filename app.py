@@ -371,7 +371,7 @@ def generate_pdf():
 
     cef_table = Table(
         cef_data,
-        colWidths=[1.8 * inch] * 3,
+        colWidths=[1.0 * inch] * 3,
         rowHeights=1.0 * inch
     )
 
@@ -424,13 +424,13 @@ def generate_pdf():
 
     safe_table = Table(
         [safe_row],
-        colWidths=[1.0 * inch] * len(SAFEGUARDING_QUESTIONS),
-        rowHeights=0.9 * inch
+        colWidths=[0.8 * inch] * len(SAFEGUARDING_QUESTIONS),
+        rowHeights=0.8 * inch
     )
 
     safe_style = []
 
-    for c, q in enumerate(SAFEGUARDING_QUESTIONS):
+    for c, q in enumerate(QUESTION_TEXT):
         score = person_data[f"Q{q}"]
         colour = get_safeguarding_colour(score)
         safe_style.append(("BACKGROUND", (c,0), (c,0), colour))
