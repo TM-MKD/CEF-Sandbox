@@ -371,8 +371,8 @@ def generate_pdf():
 
     cef_table = Table(
         cef_data,
-        colWidths=[1.0 * inch] * 3,
-        rowHeights=1.0 * inch
+        colWidths=[2.6 * inch] * 3,
+        rowHeights=0.8 * inch
     )
 
     style_commands = []
@@ -424,7 +424,7 @@ def generate_pdf():
 
     safe_table = Table(
         [safe_row],
-        colWidths=[0.8 * inch] * len(SAFEGUARDING_QUESTIONS),
+        colWidths=[2.6 * inch] * len(SAFEGUARDING_QUESTIONS),
         rowHeights=0.8 * inch
     )
 
