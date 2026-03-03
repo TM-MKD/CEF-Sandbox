@@ -37,6 +37,47 @@ with col2:
 st.markdown("---")
 
 # ===================== CONSTANTS =====================
+# ===================== CEF QUESTION HEADER MAP =====================
+
+CEF_QUESTIONS = {
+    "Do you understand your role?": "Q1",
+    "Do you engage with club coach CPD?": "Q2",
+    "Do you communicate effectively?": "Q3",
+    "Do you engage with players and parents informally?": "Q4",
+    "Do you understand the game model?": "Q5",
+    "Do you seek to understand decisions?": "Q6",
+    "Are you positive and inspiring?": "Q7",
+    "Do you set realistic goals for players?": "Q8",
+    "Do you use appropriate interventions?": "Q9",
+    "Do you understand player differences?": "Q10",
+    "Do you understand and apply LTPD?": "Q11",
+    "Do you support coaching with video and data?": "Q12",
+    "Do you introduce sessions effectively?": "Q13",
+    "Do you embed deliberate practice?": "Q14",
+    "Do you create action plans for players?": "Q15",
+    "Do you debrief sessions?": "Q16",
+    "Do you use club coaching methodology?": "Q17",
+    "Do you adopt club principles (H-O-P)?": "Q18",
+    "Do you adopt a multi-disciplinary approach?": "Q19",
+    "Are you aware of safeguarding policies and procedures?": "Q20",
+    "Do you embed competencies each session?": "Q21",
+    "Do you notice changes in a child's behaviour?": "Q22",
+    "Do you signpost players to appropriate support?": "Q23",
+    "Are you a critical thinker who checks and challenges?": "Q24",
+    "Do you manage other staff supporting sessions?": "Q25",
+    "Do you listen and suspend judgement?": "Q26",
+    "Do you have a recognised coaching cell in the club?": "Q27",
+    "Do you watch other coaches inside the club?": "Q28",
+    "Do you embed physical development?": "Q29",
+    "Do you make practice competitive and realistic?": "Q30",
+    "Do you develop players physically through session design?": "Q31",
+    "Do you drive intensity using coaching strategies?": "Q32",
+    "Do you report issues using MyConcern appropriately?": "Q33",
+    "Are you comfortable challenging poor practice?": "Q34",
+    "Are you an ambassador of MK Dons?": "Q35",
+    "Do you have clear interests away from coaching?": "Q36"
+}
+
 GROUP_LABELS = [
     "Understanding Self",
     "Coaching Individuals",
