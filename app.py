@@ -401,7 +401,7 @@ def generate_pdf():
 
     elements.append(
         Paragraph(
-            f"<b>Safeguarding (Total: {safeguarding_total}/36)</b>",
+            f"<b>Safeguarding (Total: {safeguarding_total}/5)</b>",
             section_style
         )
     )
