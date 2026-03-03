@@ -280,10 +280,10 @@ def generate_pdf():
     doc = SimpleDocTemplate(
         buffer,
         pagesize=pagesizes.A4,
-        rightMargin=30,
-        leftMargin=30,
-        topMargin=40,
-        bottomMargin=30
+        rightMargin=20,
+        leftMargin=20,
+        topMargin=20,
+        bottomMargin=20
     )
 
     elements = []
@@ -310,7 +310,7 @@ def generate_pdf():
     # HEADER WITH BADGE + TITLE
     # ==============================
 
-    badge = Image("assets/mkdons_badge.png", width=1.2*inch, height=1.2*inch)
+    badge = Image("assets/mkdons_badge.png", width=1.0*inch, height=1.0*inch)
 
     header_title = Paragraph(
         "<b>MK Dons – Coach Evaluation Report</b>",
@@ -319,7 +319,7 @@ def generate_pdf():
 
     header_table = Table(
         [[badge, header_title]],
-        colWidths=[1.5*inch, 4.5*inch]
+        colWidths=[1.4*inch, 8.0*inch]
     )
 
     header_table.setStyle(TableStyle([
@@ -332,11 +332,11 @@ def generate_pdf():
     ]))
 
     elements.append(header_table)
-    elements.append(Spacer(1, 20))
+    elements.append(Spacer(1, 15))
 
     elements.append(Paragraph(f"<b>Coach:</b> {coach}", normal_style))
     elements.append(Paragraph(f"<b>Block:</b> {block_selected}", normal_style))
-    elements.append(Spacer(1, 20))
+    elements.append(Spacer(1, 15))
 
     # ==============================
     # CEF SECTION
@@ -350,7 +350,7 @@ def generate_pdf():
             section_style
         )
     )
-    elements.append(Spacer(1, 12))
+    elements.append(Spacer(1, 15))
 
     cef_data = []
     row = []
@@ -391,7 +391,7 @@ def generate_pdf():
     cef_table.setStyle(TableStyle(style_commands))
 
     elements.append(cef_table)
-    elements.append(Spacer(1, 25))
+    elements.append(Spacer(1, 15))
 
     # ==============================
     # SAFEGUARDING SECTION
@@ -405,7 +405,7 @@ def generate_pdf():
             section_style
         )
     )
-    elements.append(Spacer(1, 12))
+    elements.append(Spacer(1, 15))
 
     safe_row = []
     attention_needed = []
@@ -442,7 +442,7 @@ def generate_pdf():
     safe_table.setStyle(TableStyle(safe_style))
 
     elements.append(safe_table)
-    elements.append(Spacer(1, 25))
+    elements.append(Spacer(1, 15))
 
     # ==============================
     # ATTENTION NEEDED SECTION
