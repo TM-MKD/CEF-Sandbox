@@ -263,36 +263,10 @@ for col, q in zip(cols, SAFEGUARDING_QUESTIONS):
             unsafe_allow_html=True
         )
 
-# ===================== ACTION PLAN =====================
+# ===================== ACTION PLAN Section =====================
 
 st.markdown("---")
 st.subheader("Action Plan")
-
-half_scores, zero_scores = [], []
-
-for i, q_col in enumerate(question_cols, start=1):
-
-    score = pd.to_numeric(person_data[q_col], errors="coerce")
-
-    if score == 0.5:
-        half_scores.append(f"Q{i} – {q_col}")
-
-    elif score == 0:
-        zero_scores.append(f"Q{i} – {q_col}")
-
-if half_scores:
-
-    st.markdown("#### Consider Improving")
-
-    for item in half_scores:
-        st.write(item)
-
-if zero_scores:
-
-    st.markdown("#### Immediate Attention Needed")
-
-    for item in zero_scores:
-        st.write(item)
 
 # ===================== PDF GENERATION =====================
 
@@ -364,6 +338,34 @@ st.download_button(
     file_name=f"{coach}_CEF_Report.pdf",
     mime="application/pdf"
 )
+
+# ===================== ACTION PLAN On Screen =====================
+
+half_scores, zero_scores = [], []
+
+for i, q_col in enumerate(question_cols, start=1):
+
+    score = pd.to_numeric(person_data[q_col], errors="coerce")
+
+    if score == 0.5:
+        half_scores.append(f"Q{i} – {q_col}")
+
+    elif score == 0:
+        zero_scores.append(f"Q{i} – {q_col}")
+
+if half_scores:
+
+    st.markdown("#### Consider Improving")
+
+    for item in half_scores:
+        st.write(item)
+
+if zero_scores:
+
+    st.markdown("#### Immediate Attention Needed")
+
+    for item in zero_scores:
+        st.write(item)
 
 # ===================== FULL CEF BREAKDOWN TABLE =====================
 
