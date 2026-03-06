@@ -394,7 +394,7 @@ def generate_pdf():
     for q in SAFEGUARDING_QUESTIONS:
         score = person_data[q]
         if score <= 2:
-            attention_needed.append(f"{q} – {QUESTION_TEXT[q]} (Score: {score})")
+            attention_needed.append(f"{q} – {question_cols} (Score: {score})")
         cell = Paragraph(
             f"<para align='center'><b>{score}</b><br/><font size=6>{q}</font></para>",
             normal_style
