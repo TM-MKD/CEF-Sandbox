@@ -294,7 +294,7 @@ for col, q in zip(cols, SAFEGUARDING_QUESTIONS):
                 height:130px;
                 box-shadow:0 4px 10px rgba(0,0,0,0.15);
             ">
-                <div style="font-size:11px;margin-top:6px;">
+                <div style="font-size:20px;margin-top:6px;">
                     {q}
                 </div>
             </div>
