@@ -310,7 +310,7 @@ st.subheader("Action Plan")
 half_scores, zero_scores = [], []
 
 for i, q_col in enumerate(question_cols, start=1):
-    score = person_data[q_col]
+    score = float(person_data[q_col])
 
     if score == 0.5:
         half_scores.append(f"Q{i} – {q_col}")
