@@ -50,7 +50,13 @@ GROUP_LABELS = [
     "Wellbeing/Lifestyle"
 ]
 
-SAFEGUARDING_QUESTIONS = [22, 20, 30, 33, 34]
+SAFEGUARDING_QUESTIONS = [
+    "Are you aware of the clubs safeguarding policies?",
+    "Can you notice changes in child behaviour?",
+    "Do you signpost players to appropriate support?",
+    "Can you use Myconcern to report safeguarding concerns and follow up where/when appropriate?",
+    "Are you comfortable checking (and where necessary) challenging poor practice?"
+]
 
 QUESTION_TEXT = {
     1: "Understands their role (IP/VEO)",
@@ -269,14 +275,14 @@ make_group_grid(group_totals)
 st.markdown("---")
 st.subheader("Safeguarding")
 
-safeguarding_scores = [person_data[f"Q{q}"] for q in SAFEGUARDING_QUESTIONS]
+safeguarding_scores = [person_data[q] for q in SAFEGUARDING_QUESTIONS]
 safeguarding_total = sum(safeguarding_scores)
 
 st.markdown(f"### Score: **{safeguarding_total} / 5**")
 
 cols = st.columns(5)
 for col, q in zip(cols, SAFEGUARDING_QUESTIONS):
-    score = person_data[f"Q{q}"]
+    score = person_data[q]
     with col:
         st.markdown(
             f"""
