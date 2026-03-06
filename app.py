@@ -309,14 +309,14 @@ st.subheader("Action Plan")
 
 half_scores, zero_scores = [], []
 
-for q_col in question_cols:
-    q_num = int(q_col.replace("Q", ""))
+for i, q_col in enumerate(question_cols, start=1):
     score = person_data[q_col]
 
     if score == 0.5:
-        half_scores.append(f"Q{q_num} – {QUESTION_TEXT[q_num]}")
+        half_scores.append(f"Q{i} – {q_col}")
     elif score == 0:
-        zero_scores.append(f"Q{q_num} – {QUESTION_TEXT[q_num]}")
+        zero_scores.append(f"Q{i} – {q_col}")
+
 
 # ---------- DOWNLOAD PDF BUTTON ----------
 def generate_pdf():
