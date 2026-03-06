@@ -173,7 +173,7 @@ df.columns = df.columns.str.strip()
 score_map = {"YES": 1, "Neither YES or NO": 0.5, "NO": 0}
 
 # Identify question columns
-question_cols = [c for c in df.columns if str(c).startswith("Q")]
+question_cols = [c for c in df.columns if str(c).startswith("Do you Understand your role?")]
 
 # Convert responses to numeric scores
 for col in question_cols:
