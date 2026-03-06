@@ -295,7 +295,7 @@ for col, q in zip(cols, SAFEGUARDING_QUESTIONS):
                 box-shadow:0 4px 10px rgba(0,0,0,0.15);
             ">
                 <div style="font-size:26px;font-weight:bold;">{score}</div>
-                <div style="font-size:16px;margin-top:6px;">
+                <div style="font-size:12px;margin-top:6px;">
                     {q}
                 </div>
             </div>
