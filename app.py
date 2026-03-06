@@ -364,3 +364,77 @@ st.download_button(
     file_name=f"{coach}_CEF_Report.pdf",
     mime="application/pdf"
 )
+
+# ===================== FULL CEF BREAKDOWN TABLE =====================
+
+st.markdown("---")
+st.subheader("CEF Comparison by Block")
+
+comparison_data = {}
+
+for block_name, block_df in blocks.items():
+
+    coach_rows = block_df[block_df["Full Name"] == coach]
+
+    if not coach_rows.empty:
+
+        pdata = coach_rows.iloc[0]
+
+        group_scores = calculate_group_totals(pdata, question_cols)
+
+        comparison_data[block_name] = group_scores
+
+
+if comparison_data:
+
+    comparison_df = pd.DataFrame(
+        comparison_data,
+        index=GROUP_LABELS
+    )
+
+    ordered_blocks = sorted(comparison_df.columns)
+
+    comparison_df = comparison_df[ordered_blocks].round(1)
+
+    # Build styled HTML manually
+    html = "<table style='width:100%; border-collapse:collapse; text-align:center;'>"
+
+    # Header
+    html += "<tr><th style='padding:8px;'>Group</th>"
+
+    for col in ordered_blocks:
+        html += f"<th style='padding:8px;'>{col}</th>"
+
+    html += "</tr>"
+
+    # Rows
+    for row_idx, row_name in enumerate(comparison_df.index):
+
+        html += f"<tr><td style='padding:8px; font-weight:bold;'>{row_name}</td>"
+
+        for col_idx, col in enumerate(ordered_blocks):
+
+            val = comparison_df.iloc[row_idx, col_idx]
+
+            style = "padding:8px;"
+
+            if col_idx > 0:
+
+                prev_val = comparison_df.iloc[row_idx, col_idx - 1]
+
+                if val > prev_val:
+                    style += "background-color:#4CAF50; color:white;"
+                elif val < prev_val:
+                    style += "background-color:#FF6B6B; color:white;"
+
+            html += f"<td style='{style}'>{val}</td>"
+
+        html += "</tr>"
+
+    html += "</table>"
+
+    st.markdown(html, unsafe_allow_html=True)
+
+else:
+
+    st.info("No data available for this coach.")
