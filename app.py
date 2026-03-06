@@ -269,11 +269,6 @@ st.markdown("---")
 st.subheader("Action Plan")
 
 # ===================== PDF GENERATION =====================
-from io import BytesIO
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
-from reportlab.lib import colors, pagesizes
-from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.units import inch
 
 def generate_pdf():
     buffer = BytesIO()
