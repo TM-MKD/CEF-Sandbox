@@ -173,7 +173,46 @@ df.columns = df.columns.str.strip()
 score_map = {"YES": 1, "Neither YES or NO": 0.5, "NO": 0}
 
 # Identify question columns
-question_cols = [c for c in df.columns if str(c).startswith("Do you Understand your role?")]
+question_cols = [
+    "Do you Understand your role?",
+    "Do you Engage with Club CPD?",
+    "Do you Communicate Effectively?",
+    "Do you engage with players at all times and also with parents informally around training and match day?",
+    "Do you Understand the game model?",
+    "Do you seek to understand others decisions through questions",
+    "Do you inspire people and act positively?",
+    "Do you set realistic goals for players?",
+    "Do you use appropriate interventions when coaching?",
+    "Do you understand player differences?",
+    "Do you Understand and apply LTPD?",
+    "Do you support your coaching with video and data?",
+    "Do you introduce each session to players?",
+    "Do you embed deliberate practice into sessions?",
+    "Do you create action plans for players?",
+    "Do you Debrief sessions and fixtures? (with the group and then via FiP)",
+    "Do you use the club coaching methodology?",
+    "Do you adopt the Academy principles (HOP)",
+    "Do you adopt a multi-disciplinary approach?",
+    "Are you aware of the clubs safeguarding policies?",
+    "Do you embed Competencies into each session?",
+    "Can you notice changes in child behaviour?",
+    "Do you signpost players to appropriate support?",
+    "Do you critically think and challenge where necessary?",
+    "Do you manage other staff effectively to assist with the delivery of coaching sessions?",
+    "Do you listen and suspend judgement when talking with players?",
+    "Do you have a recognised/established coaching cell in the club?",
+    "Do you watch other coaches inside the football club?",
+    "Do you embed physical development in sessions?",
+    "Do you make sessions competitive and realistic?",
+    "Do you demonstrate the ability to develop players physically through session design?",
+    "Do you drive intensity in training through a variety of coaching interventions/strategies?",
+    "Can you use Myconcern to report safeguarding concerns and follow up where/when appropriate?",
+    "Are you comfortable checking (and where necessary) challenging poor practice?",
+    "Do you have clear interests away from the club that others know about?",
+    "Do you embrace MK Dons as your club and act as an ambassador for the club?"
+]
+
+question_cols = [c for c in df.columns if c in question_cols]
 
 # Convert responses to numeric scores
 for col in question_cols:
