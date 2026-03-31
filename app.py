@@ -457,7 +457,6 @@ st.download_button(
 half_scores, zero_scores = [], []
 
 for i, q_col in enumerate(question_cols, start=1):
-
     score = pd.to_numeric(person_data[q_col], errors="coerce")
 
     if score == 0.5:
@@ -466,19 +465,20 @@ for i, q_col in enumerate(question_cols, start=1):
     elif score == 0:
         zero_scores.append(f"Q{i} – {q_col}")
 
-if half_scores:
+# Create two side-by-side columns
+col1, col2 = st.columns(2)
 
-    st.markdown("#### Consider Improving")
+with col1:
+    if half_scores:
+        st.markdown("#### Consider Improving")
+        for item in half_scores:
+            st.write(item)
 
-    for item in half_scores:
-        st.write(item)
-
-if zero_scores:
-
-    st.markdown("#### Immediate Attention Needed")
-
-    for item in zero_scores:
-        st.write(item)
+with col2:
+    if zero_scores:
+        st.markdown("#### Immediate Attention Needed")
+        for item in zero_scores:
+            st.write(item)
 
 # ===================== FULL CEF BREAKDOWN TABLE =====================
 
