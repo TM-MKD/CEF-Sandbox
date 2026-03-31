@@ -339,7 +339,7 @@ def generate_pdf():
     total_cef_score = sum(group_totals)
 
     elements.append(Paragraph(f"<b>CEF Breakdown (Total: {total_cef_score}/36)</b>", section_style))
-    elements.append(Spacer(1, 15))
+    elements.append(Spacer(1, 12))
 
     cef_data = []
     row = []
@@ -379,14 +379,14 @@ def generate_pdf():
 
     cef_table.setStyle(TableStyle(style_commands))
     elements.append(cef_table)
-    elements.append(Spacer(1, 15))
+    elements.append(Spacer(1, 12))
 
     # ==============================
     # SAFEGUARDING SECTION
     # ==============================
     safeguarding_total = sum(person_data[q] for q in SAFEGUARDING_QUESTIONS)
     elements.append(Paragraph(f"<b>Safeguarding (Total: {safeguarding_total}/5)</b>", section_style))
-    elements.append(Spacer(1, 15))
+    elements.append(Spacer(1, 12))
 
     safe_row = []
     attention_needed = []
@@ -420,7 +420,7 @@ def generate_pdf():
 
     safe_table.setStyle(TableStyle(safe_style))
     elements.append(safe_table)
-    elements.append(Spacer(1, 15))
+    elements.append(Spacer(1, 12))
 
     # ==============================
     # ATTENTION NEEDED SECTION
