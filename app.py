@@ -317,7 +317,7 @@ def generate_pdf():
     header_table.setStyle(TableStyle([
         ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
         ("BACKGROUND", (0,0), (-1,-1), MK_LIGHT_GREY),
-        ("LEFTPADDING", (0,0), (-1,-1), 40),
+        ("LEFTPADDING", (0,0), (-1,-1), 60),
         ("RIGHTPADDING", (0,0), (-1,-1), 20),
         ("TOPPADDING", (0,0), (-1,-1), 10),
         ("BOTTOMPADDING", (0,0), (-1,-1), 10),
