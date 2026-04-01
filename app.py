@@ -289,6 +289,7 @@ def generate_pdf():
     MK_BLACK = colors.HexColor("#000000")
     MK_LIGHT_GREY = colors.HexColor("#F4F4F4")
 
+    # Custom styles
     title_style = styles["Title"]
     title_style.textColor = MK_BLACK
 
@@ -465,7 +466,7 @@ def generate_pdf():
         elif score == 0:
             pdf_zero_scores.append(f"Q{i} – {q_col}")
 
-    # Custom smaller styles (about 20% smaller)
+    # Smaller styles
     action_heading_orange = ParagraphStyle(
         "ActionHeadingOrange",
         parent=normal_style,
@@ -489,7 +490,7 @@ def generate_pdf():
         leading=11
     )
 
-    # Left column = Consider Improving
+    # Left column
     left_content = [
         Paragraph("<b>Consider Improving</b>", action_heading_orange),
         Spacer(1, 6)
@@ -497,14 +498,19 @@ def generate_pdf():
 
     if pdf_half_scores:
         for item in pdf_half_scores:
-            left_content.append(Paragraph(f"• {item}", action_text_style))
+            left_content.append(
+                Paragraph(f"• {item}", action_text_style)
+            )
             left_content.append(Spacer(1, 4))
     else:
         left_content.append(
-            Paragraph("No areas currently scored at 0.5.", action_text_style)
+            Paragraph(
+                "No areas currently scored at 0.5.",
+                action_text_style
+            )
         )
 
-    # Right column = Immediate Attention Needed
+    # Right column
     right_content = [
         Paragraph("<b>Immediate Attention Needed</b>", action_heading_red),
         Spacer(1, 6)
@@ -512,7 +518,9 @@ def generate_pdf():
 
     if pdf_zero_scores:
         for item in pdf_zero_scores:
-            right_content.append(Paragraph(f"• {item}", action_text_style))
+            right_content.append(
+                Paragraph(f"• {item}", action_text_style)
+            )
             right_content.append(Spacer(1, 4))
     else:
         right_content.append(
@@ -522,27 +530,20 @@ def generate_pdf():
             )
         )
 
-    action_plan_table = Table(
-        [[
-            Paragraph(left_text, normal_style),
-            Paragraph(right_text, normal_style)
-        ]],
+    action_table = Table(
+        [[left_content, right_content]],
         colWidths=[3.8 * inch, 3.8 * inch]
     )
 
-    action_plan_table.setStyle(TableStyle([
+    action_table.setStyle(TableStyle([
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
-        ("BACKGROUND", (0, 0), (0, 0), colors.whitesmoke),
-        ("BACKGROUND", (1, 0), (1, 0), colors.whitesmoke),
-        ("BOX", (0, 0), (0, 0), 1, colors.lightgrey),
-        ("BOX", (1, 0), (1, 0), 1, colors.lightgrey),
         ("LEFTPADDING", (0, 0), (-1, -1), 10),
         ("RIGHTPADDING", (0, 0), (-1, -1), 10),
-        ("TOPPADDING", (0, 0), (-1, -1), 10),
-        ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING", (0, 0), (-1, -1), 8),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 8),
     ]))
 
-    elements.append(action_plan_table)
+    elements.append(action_table)
     elements.append(Spacer(1, 12))
 
     # ==============================
@@ -552,7 +553,6 @@ def generate_pdf():
     buffer.seek(0)
 
     return buffer
-
 # ===================== PDF DOWNLOAD BUTTON =====================
 
 pdf_buffer = generate_pdf()
