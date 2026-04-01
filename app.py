@@ -268,8 +268,6 @@ for col, q in zip(cols, SAFEGUARDING_QUESTIONS):
 st.markdown("---")
 st.subheader("Action Plan")
 
-# ===================== PDF GENERATION =====================
-
 def generate_pdf():
     buffer = BytesIO()
     doc = SimpleDocTemplate(
@@ -303,7 +301,8 @@ def generate_pdf():
     # ==============================
     # HEADER WITH BADGE + TITLE
     # ==============================
-    badge = Image("assets/mkdons_badge.png", width=1.0*inch, height=1.0*inch)
+    badge = Image("assets/mkdons_badge.png", width=1.0 * inch, height=1.0 * inch)
+
     header_title = Paragraph(
         "<b>MK Dons – Coach Evaluation Report</b>",
         title_style
@@ -311,16 +310,16 @@ def generate_pdf():
 
     header_table = Table(
         [[badge, header_title]],
-        colWidths=[1.4*inch, 8.0*inch]
+        colWidths=[1.4 * inch, 8.0 * inch]
     )
 
     header_table.setStyle(TableStyle([
-        ("VALIGN", (0,0), (-1,-1), "MIDDLE"),
-        ("BACKGROUND", (0,0), (-1,-1), MK_LIGHT_GREY),
-        ("LEFTPADDING", (0,0), (-1,-1), 60),
-        ("RIGHTPADDING", (0,0), (-1,-1), 40),
-        ("TOPPADDING", (0,0), (-1,-1), 10),
-        ("BOTTOMPADDING", (0,0), (-1,-1), 10),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("BACKGROUND", (0, 0), (-1, -1), MK_LIGHT_GREY),
+        ("LEFTPADDING", (0, 0), (-1, -1), 60),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 40),
+        ("TOPPADDING", (0, 0), (-1, -1), 10),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
     ]))
 
     elements.append(header_table)
@@ -338,7 +337,12 @@ def generate_pdf():
     # ==============================
     total_cef_score = sum(group_totals)
 
-    elements.append(Paragraph(f"<b>CEF Breakdown (Total: {total_cef_score}/36)</b>", section_style))
+    elements.append(
+        Paragraph(
+            f"<b>CEF Breakdown (Total: {total_cef_score}/36)</b>",
+            section_style
+        )
+    )
     elements.append(Spacer(1, 10))
 
     cef_data = []
@@ -356,6 +360,8 @@ def generate_pdf():
             row = []
 
     if row:
+        while len(row) < 3:
+            row.append("")
         cef_data.append(row)
 
     cef_table = Table(
@@ -364,18 +370,22 @@ def generate_pdf():
         rowHeights=0.8 * inch
     )
 
-    style_commands = []
+    style_commands = [
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+    ]
 
     for r in range(len(cef_data)):
-        for c in range(len(cef_data[r])):
+        for c in range(3):
             score_index = r * 3 + c
             if score_index < len(group_totals):
                 colour = get_group_colour(group_totals[score_index])
-                style_commands.append(("BACKGROUND", (c, r), (c, r), colour))
-                style_commands.append(("BOX", (c, r), (c, r), 1, colors.white))
-
-    style_commands.append(("VALIGN", (0,0), (-1,-1), "MIDDLE"))
-    style_commands.append(("ALIGN", (0,0), (-1,-1), "CENTER"))
+                style_commands.append(
+                    ("BACKGROUND", (c, r), (c, r), colour)
+                )
+                style_commands.append(
+                    ("BOX", (c, r), (c, r), 1, colors.white)
+                )
 
     cef_table.setStyle(TableStyle(style_commands))
     elements.append(cef_table)
@@ -384,17 +394,24 @@ def generate_pdf():
     # ==============================
     # SAFEGUARDING SECTION
     # ==============================
-    safeguarding_total = sum(person_data[q] for q in SAFEGUARDING_QUESTIONS)
-    elements.append(Paragraph(f"<b>Safeguarding (Total: {safeguarding_total}/5)</b>", section_style))
+    safeguarding_total = sum(
+        pd.to_numeric(person_data[q], errors="coerce")
+        for q in SAFEGUARDING_QUESTIONS
+    )
+
+    elements.append(
+        Paragraph(
+            f"<b>Safeguarding (Total: {safeguarding_total}/5)</b>",
+            section_style
+        )
+    )
     elements.append(Spacer(1, 10))
 
     safe_row = []
-    attention_needed = []
 
     for q in SAFEGUARDING_QUESTIONS:
-        score = person_data[q]
-        if score <= 2:
-            attention_needed.append(f"{q} – {question_cols} (Score: {score})")
+        score = pd.to_numeric(person_data[q], errors="coerce")
+
         cell = Paragraph(
             f"<para align='center'><b>{score}</b><br/><font size=6>{q}</font></para>",
             normal_style
@@ -407,79 +424,84 @@ def generate_pdf():
         rowHeights=0.8 * inch
     )
 
-    safe_style = []
+    safe_style = [
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+    ]
 
     for c, q in enumerate(SAFEGUARDING_QUESTIONS):
-        score = person_data[q]
+        score = pd.to_numeric(person_data[q], errors="coerce")
         colour = get_safeguarding_colour(score)
-        safe_style.append(("BACKGROUND", (c,0), (c,0), colour))
-        safe_style.append(("BOX", (c,0), (c,0), 1, colors.white))
 
-    safe_style.append(("VALIGN", (0,0), (-1,-1), "MIDDLE"))
-    safe_style.append(("ALIGN", (0,0), (-1,-1), "CENTER"))
+        safe_style.append(
+            ("BACKGROUND", (c, 0), (c, 0), colour)
+        )
+        safe_style.append(
+            ("BOX", (c, 0), (c, 0), 1, colors.white)
+        )
 
     safe_table.setStyle(TableStyle(safe_style))
     elements.append(safe_table)
-    elements.append(Spacer(1, 10))
+    elements.append(Spacer(1, 12))
 
     # ==============================
-# ACTION PLAN SECTION
-# ==============================
-elements.append(Paragraph("<b>Action Plan</b>", section_style))
-elements.append(Spacer(1, 8))
+    # ACTION PLAN SECTION
+    # ==============================
+    elements.append(Paragraph("<b>Action Plan</b>", section_style))
+    elements.append(Spacer(1, 8))
 
-pdf_half_scores = []
-pdf_zero_scores = []
+    pdf_half_scores = []
+    pdf_zero_scores = []
 
-for i, q_col in enumerate(question_cols, start=1):
-    score = pd.to_numeric(person_data[q_col], errors="coerce")
+    for i, q_col in enumerate(question_cols, start=1):
+        score = pd.to_numeric(person_data[q_col], errors="coerce")
 
-    if score == 0.5:
-        pdf_half_scores.append(f"Q{i} – {q_col}")
+        if score == 0.5:
+            pdf_half_scores.append(f"Q{i} – {q_col}")
 
-    elif score == 0:
-        pdf_zero_scores.append(f"Q{i} – {q_col}")
+        elif score == 0:
+            pdf_zero_scores.append(f"Q{i} – {q_col}")
 
-# Consider Improving
-elements.append(Paragraph("<b>Consider Improving</b>", normal_style))
-elements.append(Spacer(1, 4))
+    # Consider Improving
+    elements.append(Paragraph("<b>Consider Improving</b>", normal_style))
+    elements.append(Spacer(1, 4))
 
-if pdf_half_scores:
-    for item in pdf_half_scores:
-        elements.append(Paragraph(f"• {item}", normal_style))
-else:
-    elements.append(Paragraph("No areas currently scored at 0.5.", normal_style))
+    if pdf_half_scores:
+        for item in pdf_half_scores:
+            elements.append(Paragraph(f"• {item}", normal_style))
+    else:
+        elements.append(
+            Paragraph("No areas currently scored at 0.5.", normal_style)
+        )
 
-elements.append(Spacer(1, 8))
+    elements.append(Spacer(1, 8))
 
-# Immediate Attention Needed
-elements.append(Paragraph("<b>Immediate Attention Needed</b>", normal_style))
-elements.append(Spacer(1, 4))
+    # Immediate Attention Needed
+    elements.append(
+        Paragraph("<b>Immediate Attention Needed</b>", normal_style)
+    )
+    elements.append(Spacer(1, 4))
 
-if pdf_zero_scores:
-    for item in pdf_zero_scores:
-        elements.append(Paragraph(f"• {item}", normal_style))
-else:
-    elements.append(Paragraph("No areas requiring immediate attention.", normal_style))
+    if pdf_zero_scores:
+        for item in pdf_zero_scores:
+            elements.append(Paragraph(f"• {item}", normal_style))
+    else:
+        elements.append(
+            Paragraph(
+                "No areas requiring immediate attention.",
+                normal_style
+            )
+        )
 
-elements.append(Spacer(1, 12))
+    elements.append(Spacer(1, 12))
 
     # ==============================
     # BUILD PDF
     # ==============================
     doc.build(elements)
     buffer.seek(0)
+
     return buffer
-
-pdf_buffer = generate_pdf()
-
-st.download_button(
-    label="Download PDF Report",
-    data=pdf_buffer,
-    file_name=f"{coach}_{block_selected}_Action_Plan.pdf",
-    mime="application/pdf"
-)
-
 # ===================== ACTION PLAN On Screen =====================
 
 half_scores, zero_scores = [], []
