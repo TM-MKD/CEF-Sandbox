@@ -448,7 +448,7 @@ def generate_pdf():
     elements.append(Spacer(1, 12))
 
     # ==============================
-    # ACTION PLAN SECTION (SIDE BY SIDE)
+    # ACTION PLAN SECTION
     # ==============================
     elements.append(Paragraph("<b>Action Plan</b>", section_style))
     elements.append(Spacer(1, 8))
@@ -461,21 +461,66 @@ def generate_pdf():
 
         if score == 0.5:
             pdf_half_scores.append(f"Q{i} – {q_col}")
+
         elif score == 0:
             pdf_zero_scores.append(f"Q{i} – {q_col}")
 
-    left_text = "<b>Consider Improving</b><br/>"
-    right_text = "<b>Immediate Attention Needed</b><br/>"
+    # Custom smaller styles (about 20% smaller)
+    action_heading_orange = ParagraphStyle(
+        "ActionHeadingOrange",
+        parent=normal_style,
+        fontSize=9,
+        leading=11,
+        textColor=colors.HexColor("#F4A261")
+    )
+
+    action_heading_red = ParagraphStyle(
+        "ActionHeadingRed",
+        parent=normal_style,
+        fontSize=9,
+        leading=11,
+        textColor=colors.HexColor("#FF6B6B")
+    )
+
+    action_text_style = ParagraphStyle(
+        "ActionTextSmall",
+        parent=normal_style,
+        fontSize=8,
+        leading=11
+    )
+
+    # Left column = Consider Improving
+    left_content = [
+        Paragraph("<b>Consider Improving</b>", action_heading_orange),
+        Spacer(1, 6)
+    ]
 
     if pdf_half_scores:
-        left_text += "<br/>".join([f"• {item}" for item in pdf_half_scores])
+        for item in pdf_half_scores:
+            left_content.append(Paragraph(f"• {item}", action_text_style))
+            left_content.append(Spacer(1, 4))
     else:
-        left_text += "No areas currently scored at 0.5."
+        left_content.append(
+            Paragraph("No areas currently scored at 0.5.", action_text_style)
+        )
+
+    # Right column = Immediate Attention Needed
+    right_content = [
+        Paragraph("<b>Immediate Attention Needed</b>", action_heading_red),
+        Spacer(1, 6)
+    ]
 
     if pdf_zero_scores:
-        right_text += "<br/>".join([f"• {item}" for item in pdf_zero_scores])
+        for item in pdf_zero_scores:
+            right_content.append(Paragraph(f"• {item}", action_text_style))
+            right_content.append(Spacer(1, 4))
     else:
-        right_text += "No areas requiring immediate attention."
+        right_content.append(
+            Paragraph(
+                "No areas requiring immediate attention.",
+                action_text_style
+            )
+        )
 
     action_plan_table = Table(
         [[
