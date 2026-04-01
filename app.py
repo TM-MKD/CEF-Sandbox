@@ -537,6 +537,10 @@ def generate_pdf():
 
     action_table.setStyle(TableStyle([
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("BACKGROUND", (0, 0), (0, 0), colors.whitesmoke),
+        ("BACKGROUND", (1, 0), (1, 0), colors.whitesmoke),
+        ("BOX", (0, 0), (0, 0), 1, colors.lightgrey),
+        ("BOX", (1, 0), (1, 0), 1, colors.lightgrey),
         ("LEFTPADDING", (0, 0), (-1, -1), 10),
         ("RIGHTPADDING", (0, 0), (-1, -1), 10),
         ("TOPPADDING", (0, 0), (-1, -1), 8),
