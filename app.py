@@ -195,7 +195,6 @@ coach = st.selectbox(
     "Select Coach",
     options=first_block["Full Name"],
     index=None
-)
 
 block_selected = st.selectbox(
     "Select Block",
@@ -209,6 +208,10 @@ if coach is None or block_selected is None:
 
 df = blocks[block_selected]
 person_data = df[df["Full Name"] == coach].iloc[0]
+
+if coach_data.empty:
+    st.info(f"⚽ No data available in {block_selected} for {coach} ⚽️")
+    st.stop()
 
 # ===================== CEF BREAKDOWN =====================
 
