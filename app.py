@@ -502,6 +502,18 @@ def generate_pdf():
     buffer.seek(0)
 
     return buffer
+
+    # ===================== PDF DOWNLOAD BUTTON =====================
+
+    pdf_buffer = generate_pdf()
+    
+    st.download_button(
+    label="Download PDF Report",
+    data=pdf_buffer,
+    file_name=f"{coach}_{block_selected}_Action_Plan.pdf",
+    mime="application/pdf"
+)
+
 # ===================== ACTION PLAN On Screen =====================
 
 half_scores, zero_scores = [], []
