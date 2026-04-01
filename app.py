@@ -195,7 +195,8 @@ coach = st.selectbox(
     "Select Coach",
     options=first_block["Full Name"],
     index=None
-
+)
+    
 block_selected = st.selectbox(
     "Select Block",
     options=list(blocks.keys()),
