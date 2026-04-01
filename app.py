@@ -289,7 +289,6 @@ def generate_pdf():
     MK_BLACK = colors.HexColor("#000000")
     MK_LIGHT_GREY = colors.HexColor("#F4F4F4")
 
-    # Custom styles
     title_style = styles["Title"]
     title_style.textColor = MK_BLACK
 
@@ -301,7 +300,11 @@ def generate_pdf():
     # ==============================
     # HEADER WITH BADGE + TITLE
     # ==============================
-    badge = Image("assets/mkdons_badge.png", width=1.0 * inch, height=1.0 * inch)
+    badge = Image(
+        "assets/mkdons_badge.png",
+        width=1.0 * inch,
+        height=1.0 * inch
+    )
 
     header_title = Paragraph(
         "<b>MK Dons – Coach Evaluation Report</b>",
@@ -458,11 +461,9 @@ def generate_pdf():
 
         if score == 0.5:
             pdf_half_scores.append(f"Q{i} – {q_col}")
-
         elif score == 0:
             pdf_zero_scores.append(f"Q{i} – {q_col}")
 
-    # Consider Improving
     elements.append(Paragraph("<b>Consider Improving</b>", normal_style))
     elements.append(Spacer(1, 4))
 
@@ -476,7 +477,6 @@ def generate_pdf():
 
     elements.append(Spacer(1, 8))
 
-    # Immediate Attention Needed
     elements.append(
         Paragraph("<b>Immediate Attention Needed</b>", normal_style)
     )
@@ -503,11 +503,12 @@ def generate_pdf():
 
     return buffer
 
-    # ===================== PDF DOWNLOAD BUTTON =====================
 
-    pdf_buffer = generate_pdf()
-    
-    st.download_button(
+# ===================== PDF DOWNLOAD BUTTON =====================
+
+pdf_buffer = generate_pdf()
+
+st.download_button(
     label="Download PDF Report",
     data=pdf_buffer,
     file_name=f"{coach}_{block_selected}_Action_Plan.pdf",
