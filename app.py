@@ -207,11 +207,32 @@ if coach is None or block_selected is None:
     st.stop()
 
 df = blocks[block_selected]
-person_data = df[df["Full Name"] == coach].iloc[0]
+
+coach_data = df[df["Full Name"] == coach]
 
 if coach_data.empty:
-    st.info(f"⚽ No data available in {block_selected} for {coach} ⚽️")
+    st.markdown(
+        f"""
+        <div style="
+            background-color:#F8F9FA;
+            border:2px solid #E0E0E0;
+            padding:20px;
+            border-radius:12px;
+            text-align:center;
+            margin-top:20px;
+            box-shadow:0 4px 8px rgba(0,0,0,0.08);
+        ">
+            <div style="font-size:28px;">⚽</div>
+            <div style="font-size:18px; font-weight:600; margin-top:8px;">
+                No data from {block_selected} for {coach}
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
     st.stop()
+
+person_data = coach_data.iloc[0]
 
 # ===================== CEF BREAKDOWN =====================
 
