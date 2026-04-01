@@ -448,7 +448,7 @@ def generate_pdf():
     elements.append(Spacer(1, 12))
 
     # ==============================
-    # ACTION PLAN SECTION
+    # ACTION PLAN SECTION (SIDE BY SIDE)
     # ==============================
     elements.append(Paragraph("<b>Action Plan</b>", section_style))
     elements.append(Spacer(1, 8))
@@ -464,35 +464,40 @@ def generate_pdf():
         elif score == 0:
             pdf_zero_scores.append(f"Q{i} – {q_col}")
 
-    elements.append(Paragraph("<b>Consider Improving</b>", normal_style))
-    elements.append(Spacer(1, 4))
+    left_text = "<b>Consider Improving</b><br/>"
+    right_text = "<b>Immediate Attention Needed</b><br/>"
 
     if pdf_half_scores:
-        for item in pdf_half_scores:
-            elements.append(Paragraph(f"• {item}", normal_style))
+        left_text += "<br/>".join([f"• {item}" for item in pdf_half_scores])
     else:
-        elements.append(
-            Paragraph("No areas currently scored at 0.5.", normal_style)
-        )
-
-    elements.append(Spacer(1, 8))
-
-    elements.append(
-        Paragraph("<b>Immediate Attention Needed</b>", normal_style)
-    )
-    elements.append(Spacer(1, 4))
+        left_text += "No areas currently scored at 0.5."
 
     if pdf_zero_scores:
-        for item in pdf_zero_scores:
-            elements.append(Paragraph(f"• {item}", normal_style))
+        right_text += "<br/>".join([f"• {item}" for item in pdf_zero_scores])
     else:
-        elements.append(
-            Paragraph(
-                "No areas requiring immediate attention.",
-                normal_style
-            )
-        )
+        right_text += "No areas requiring immediate attention."
 
+    action_plan_table = Table(
+        [[
+            Paragraph(left_text, normal_style),
+            Paragraph(right_text, normal_style)
+        ]],
+        colWidths=[3.8 * inch, 3.8 * inch]
+    )
+
+    action_plan_table.setStyle(TableStyle([
+        ("VALIGN", (0, 0), (-1, -1), "TOP"),
+        ("BACKGROUND", (0, 0), (0, 0), colors.whitesmoke),
+        ("BACKGROUND", (1, 0), (1, 0), colors.whitesmoke),
+        ("BOX", (0, 0), (0, 0), 1, colors.lightgrey),
+        ("BOX", (1, 0), (1, 0), 1, colors.lightgrey),
+        ("LEFTPADDING", (0, 0), (-1, -1), 10),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING", (0, 0), (-1, -1), 10),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 10),
+    ]))
+
+    elements.append(action_plan_table)
     elements.append(Spacer(1, 12))
 
     # ==============================
@@ -502,7 +507,6 @@ def generate_pdf():
     buffer.seek(0)
 
     return buffer
-
 
 # ===================== PDF DOWNLOAD BUTTON =====================
 
