@@ -423,18 +423,46 @@ def generate_pdf():
     elements.append(Spacer(1, 10))
 
     # ==============================
-    # ATTENTION NEEDED SECTION
-    # ==============================
-    elements.append(Paragraph("<b>Needs Attention</b>", section_style))
-    elements.append(Spacer(1, 8))
+# ACTION PLAN SECTION
+# ==============================
+elements.append(Paragraph("<b>Action Plan</b>", section_style))
+elements.append(Spacer(1, 8))
 
-    if attention_needed:
-        for item in attention_needed:
-            elements.append(Paragraph(f"- {item}", normal_style))
-    else:
-        elements.append(Paragraph("No areas requiring immediate attention.", normal_style))
+pdf_half_scores = []
+pdf_zero_scores = []
 
-    elements.append(Spacer(1, 12))
+for i, q_col in enumerate(question_cols, start=1):
+    score = pd.to_numeric(person_data[q_col], errors="coerce")
+
+    if score == 0.5:
+        pdf_half_scores.append(f"Q{i} – {q_col}")
+
+    elif score == 0:
+        pdf_zero_scores.append(f"Q{i} – {q_col}")
+
+# Consider Improving
+elements.append(Paragraph("<b>Consider Improving</b>", normal_style))
+elements.append(Spacer(1, 4))
+
+if pdf_half_scores:
+    for item in pdf_half_scores:
+        elements.append(Paragraph(f"• {item}", normal_style))
+else:
+    elements.append(Paragraph("No areas currently scored at 0.5.", normal_style))
+
+elements.append(Spacer(1, 8))
+
+# Immediate Attention Needed
+elements.append(Paragraph("<b>Immediate Attention Needed</b>", normal_style))
+elements.append(Spacer(1, 4))
+
+if pdf_zero_scores:
+    for item in pdf_zero_scores:
+        elements.append(Paragraph(f"• {item}", normal_style))
+else:
+    elements.append(Paragraph("No areas requiring immediate attention.", normal_style))
+
+elements.append(Spacer(1, 12))
 
     # ==============================
     # BUILD PDF
