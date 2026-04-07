@@ -12,7 +12,7 @@ from io import BytesIO
 
 # ===================== PAGE CONFIG =====================
 st.set_page_config(
-    page_title="MK Dons – CEF Sandbox",
+    page_title="CEF",
     layout="wide"
 )
 
