@@ -188,6 +188,17 @@ if block_selected is None:
 
 block_df = blocks[block_selected]
 
+# ===================== COACHES IN BLOCK =====================
+st.markdown("---")
+st.subheader("Coaches in Selected Block")
+
+coaches_in_block = block_df["Full Name"].unique().tolist()
+
+if coaches_in_block:
+    st.write(", ".join(coaches_in_block))
+else:
+    st.write("No coaches found for this block.")
+
 # ===================== CEF BREAKDOWN =====================
 st.markdown("---")
 st.subheader("Average CEF Breakdown")
