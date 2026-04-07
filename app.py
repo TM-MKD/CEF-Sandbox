@@ -9,12 +9,16 @@ st.title("MK Dons – CEF Sandbox")
 st.markdown("---")
 
 st.markdown("""
-Welcome to the **Coach Evaluation Framework Sandbox**.
+### Welcome
 
-Use the navigation menu on the left to access:
+Use the **sidebar on the left** to navigate between pages.
 
-- **Individual Coach View** → Review one coach’s scores
-- **Block Average View** → Review average scores across all coaches in a block
+Available pages:
 
-Upload your evaluation data within each page to begin.
+- **Individual Coach View**
+- **Block Average View**
+
+Upload your Excel file within the selected page.
 """)
+
+st.sidebar.success("Select a page above.")
