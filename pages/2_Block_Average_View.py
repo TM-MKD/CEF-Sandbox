@@ -4,7 +4,7 @@ from reportlab.lib import colors
 
 # ===================== PAGE CONFIG =====================
 st.set_page_config(
-    page_title="MK Dons – Block Average",
+    page_title="CEF",
     layout="wide"
 )
 
