@@ -8,17 +8,18 @@ st.set_page_config(
 st.title("MK Dons – CEF Sandbox")
 st.markdown("---")
 
-st.subheader("Welcome")
-st.write("Select the dashboard you would like to open.")
+st.markdown("## Welcome")
+st.write("Choose a page below to begin.")
 
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("### ⚽ Individual Coach")
-    if st.button("Open Dashboard", key="coach", use_container_width=True):
+    if st.button("⚽ Individual Coach View", use_container_width=True):
         st.switch_page("pages/1_Individual_Coach_View.py")
 
 with col2:
-    st.markdown("### 👥 Block Average")
-    if st.button("Open Dashboard", key="block", use_container_width=True):
+    if st.button("👥 Block Average View", use_container_width=True):
         st.switch_page("pages/2_Block_Average_View.py")
+
+st.markdown("---")
+st.write("Upload your Excel file within the selected page.")
