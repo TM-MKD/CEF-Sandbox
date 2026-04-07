@@ -1,16 +1,37 @@
 import streamlit as st
 
+# ===================== PAGE CONFIG =====================
 st.set_page_config(
     page_title="MK Dons – CEF Sandbox",
     layout="wide"
 )
 
-st.title("MK Dons – CEF Sandbox")
+# ===================== SIDEBAR =====================
+st.sidebar.title("Home")
+
+# ===================== HEADER =====================
+col1, col2 = st.columns([1, 6])
+
+with col1:
+    try:
+        st.image("assets/mkdons_badge.png", width=80)  # Badge image
+    except:
+        pass
+
+with col2:
+    st.markdown(
+        """
+        <h1 style='margin:0; padding:0;'>MK Dons – CEF Sandbox</h1>
+        """, unsafe_allow_html=True
+    )
+
 st.markdown("---")
 
+# ===================== WELCOME MESSAGE =====================
 st.markdown("## Welcome")
 st.write("Choose a page below to begin.")
 
+# ===================== NAVIGATION BUTTONS =====================
 col1, col2 = st.columns(2)
 
 with col1:
