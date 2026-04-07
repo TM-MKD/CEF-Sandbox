@@ -243,22 +243,33 @@ st.subheader("Team Development Areas")
 improve = []
 attention = []
 
-for col in question_cols:
-    avg_score = round(pd.to_numeric(block_df[col], errors="coerce").mean(), 2)
+for i, q_col in enumerate(question_cols, start=1):
+    avg_score = round(
+        pd.to_numeric(block_df[q_col], errors="coerce").mean(),
+        2
+    )
 
     if avg_score <= 0.5:
-        attention.append(col)
-    elif avg_score <= 0.75:
-        improve.append(col)
+        attention.append(f"Q{i} – {q_col} ({avg_score})")
 
+    elif avg_score <= 0.75:
+        improve.append(f"Q{i} – {q_col} ({avg_score})")
+
+# Create two side-by-side columns
 col1, col2 = st.columns(2)
 
 with col1:
-    st.markdown("#### Consider Improving")
-    for item in improve:
-        st.write(item)
+    if improve:
+        st.markdown("#### Consider Improving")
+        for item in improve:
+            st.write(item)
+    else:
+        st.write("No development areas currently identified.")
 
 with col2:
-    st.markdown("#### Immediate Attention Needed")
-    for item in attention:
-        st.write(item)
+    if attention:
+        st.markdown("#### Immediate Attention Needed")
+        for item in attention:
+            st.write(item)
+    else:
+        st.write("No immediate attention areas currently identified.")
