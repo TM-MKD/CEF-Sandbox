@@ -6,9 +6,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# ===================== SIDEBAR =====================
-st.sidebar.title("Home")
-
 # ===================== HEADER =====================
 col1, col2 = st.columns([1, 6])
 
