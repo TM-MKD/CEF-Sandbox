@@ -2,7 +2,7 @@ import streamlit as st
 
 # ===================== PAGE CONFIG =====================
 st.set_page_config(
-    page_title="MK Dons – CEF Home Page",
+    page_title="Home",
     layout="wide"
 )
 
