@@ -8,17 +8,24 @@ st.set_page_config(
 st.title("MK Dons – CEF Sandbox")
 st.markdown("---")
 
-st.markdown("""
-### Welcome
+st.markdown("## Welcome")
+st.write("Choose a page below to begin.")
 
-Use the **sidebar on the left** to navigate between pages.
+col1, col2 = st.columns(2)
 
-Available pages:
+with col1:
+    st.page_link(
+        "pages/1_Individual_Coach_View.py",
+        label="⚽ Individual Coach View",
+        icon="📊"
+    )
 
-- **Individual Coach View**
-- **Block Average View**
+with col2:
+    st.page_link(
+        "pages/2_Block_Average_View.py",
+        label="👥 Block Average View",
+        icon="📈"
+    )
 
-Upload your Excel file within the selected page.
-""")
-
-st.sidebar.success("Select a page above.")
+st.markdown("---")
+st.write("Upload your Excel file within the selected page.")
