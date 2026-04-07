@@ -18,7 +18,7 @@ with col1:
 with col2:
     st.markdown(
         """
-        <h1 style='margin:0; padding:0;'>MK Dons – CEF Home Page</h1>
+        <h1 style='margin:0; padding:0;'>Coach Evaluation Framework - Home Page</h1>
         """, unsafe_allow_html=True
     )
 
