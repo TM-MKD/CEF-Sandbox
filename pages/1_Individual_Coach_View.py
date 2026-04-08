@@ -131,17 +131,14 @@ def make_group_grid(group_totals):
                 unsafe_allow_html=True
             )
 
-# ===================== FILE UPLOAD =====================
-
-uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
-
-if uploaded_file is None:
-    st.info("Please upload an Excel file to begin.")
+# ===================== FILE CHECK =====================
+if "uploaded_excel_bytes" not in st.session_state:
+    st.info("Please upload an Excel file on the Home page to begin.")
     st.stop()
 
 # ===================== LOAD DATA =====================
 
-df = pd.read_excel(uploaded_file)
+df = pd.read_excel(BytesIO(st.session_state["uploaded_excel_bytes"]))
 df.columns = df.columns.str.strip()
 
 score_map = {
