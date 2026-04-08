@@ -2,7 +2,6 @@ import streamlit as st
  
  st.set_page_config(
      page_title="Home",       # This controls the sidebar name for the page
--    layout="wide"
 +    layout="wide",
 +    initial_sidebar_state="collapsed"
 +)
