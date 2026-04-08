@@ -5,7 +5,20 @@ from reportlab.lib import colors
 # ===================== PAGE CONFIG =====================
 st.set_page_config(
     page_title="CEF",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"],
+    [data-testid="collapsedControl"] {
+        display: none;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
 )
 
 # ===================== HEADER =====================
@@ -22,6 +35,8 @@ with col2:
         "<h1 style='margin-bottom:0;'>CEF – Block Average View</h1>",
         unsafe_allow_html=True
     )
+    if st.button("🏠 Home"):
+        st.switch_page("app.py")
 
 st.markdown("---")
 
