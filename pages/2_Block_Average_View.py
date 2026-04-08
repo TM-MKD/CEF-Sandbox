@@ -1,4 +1,6 @@
 import streamlit as st
+
+from auth import enforce_mkdons_sso
 import pandas as pd
 from reportlab.lib import colors
 from io import BytesIO
@@ -9,6 +11,8 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+enforce_mkdons_sso()
 
 st.markdown(
     """
