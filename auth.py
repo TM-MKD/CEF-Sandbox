@@ -53,7 +53,14 @@ def enforce_mkdons_sso() -> None:
         st.info("Please sign in with your MK Dons Microsoft account to access this app.")
 
         if st.button("🔐 Sign in with Outlook / Microsoft", type="primary"):
-            st.login(OIDC_PROVIDER_NAME)
+            try:
+                st.login(OIDC_PROVIDER_NAME)
+            except Exception:
+                st.error(
+                    "Sign-in is not configured correctly yet. Please check your "
+                    "`.streamlit/secrets.toml` OIDC settings for `[auth]` and "
+                    "`[auth.microsoft]` before trying again."
+                )
 
         st.stop()
 
@@ -67,7 +74,10 @@ def enforce_mkdons_sso() -> None:
         st.write(f"Signed in as: `{email or 'Unknown account'}`")
 
         if st.button("Sign out"):
-            st.logout()
+            try:
+                st.logout()
+            except Exception:
+                st.warning("Unable to sign out cleanly in this session. Please refresh the app.")
 
         st.stop()
 
