@@ -64,4 +64,3 @@ with col2:
         st.switch_page("pages/2_Block_Average_View.py")
 
 st.markdown("---")
-st.write("You can now switch between pages without re-uploading the file.")
