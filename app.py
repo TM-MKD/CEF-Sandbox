@@ -47,7 +47,7 @@ if uploaded_file is not None:
     st.session_state["uploaded_excel_name"] = uploaded_file.name
     st.success(f"Loaded file: {uploaded_file.name}")
 elif "uploaded_excel_name" in st.session_state:
-    st.info(f"Using uploaded file: {st.session_state['uploaded_excel_name']}")
+    st.success(f"Using uploaded file: {st.session_state['uploaded_excel_name']}")
 else:
     st.info("Please upload an Excel file to enable the analysis pages.")
 
