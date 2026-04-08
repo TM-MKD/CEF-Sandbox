@@ -37,7 +37,19 @@ st.markdown("---")
 
 # ===================== WELCOME MESSAGE =====================
 st.markdown("## Welcome")
-st.write("Choose a page below to begin.")
+st.write("Upload your Excel file once, then choose a page below.")
+
+# ===================== FILE UPLOAD =====================
+uploaded_file = st.file_uploader("Upload Excel file", type=["xlsx"])
+
+if uploaded_file is not None:
+    st.session_state["uploaded_excel_bytes"] = uploaded_file.getvalue()
+    st.session_state["uploaded_excel_name"] = uploaded_file.name
+    st.success(f"Loaded file: {uploaded_file.name}")
+elif "uploaded_excel_name" in st.session_state:
+    st.info(f"Using uploaded file: {st.session_state['uploaded_excel_name']}")
+else:
+    st.info("Please upload an Excel file to enable the analysis pages.")
 
 st.markdown("---")
 
@@ -52,4 +64,4 @@ with col2:
         st.switch_page("pages/2_Block_Average_View.py")
 
 st.markdown("---")
-st.write("Upload your Excel file within the selected page.")
+st.write("You can now switch between pages without re-uploading the file.")
