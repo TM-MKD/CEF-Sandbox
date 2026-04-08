@@ -23,6 +23,21 @@ def _extract_email() -> str:
     return ""
 
 
+def _is_user_logged_in() -> bool:
+    """Handle Streamlit versions where st.user may not expose .is_logged_in as an attribute."""
+    user = st.user
+
+    if hasattr(user, "is_logged_in"):
+        return bool(user.is_logged_in)
+
+    if hasattr(user, "get"):
+        is_logged_in = user.get("is_logged_in")
+        if is_logged_in is not None:
+            return bool(is_logged_in)
+
+    return bool(_extract_email())
+
+
 def enforce_mkdons_sso() -> None:
     """Require Microsoft SSO and restrict access to @mkdons.com users only."""
 
@@ -33,7 +48,7 @@ def enforce_mkdons_sso() -> None:
         )
         st.stop()
 
-    if not st.user.is_logged_in:
+    if not _is_user_logged_in():
         st.title("Sign in required")
         st.info("Please sign in with your MK Dons Microsoft account to access this app.")
 
