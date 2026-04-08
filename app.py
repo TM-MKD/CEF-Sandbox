@@ -1,10 +1,14 @@
 import streamlit as st
 
+from auth import enforce_mkdons_sso
+
 st.set_page_config(
     page_title="Home",       
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+enforce_mkdons_sso()
 
 st.markdown(
     """
