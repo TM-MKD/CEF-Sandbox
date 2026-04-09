@@ -204,12 +204,12 @@ st.markdown("## Select Coaches to Compare")
 left_select, right_select = st.columns(2)
 
 with left_select:
-    st.markdown("### Left Coach")
+    st.markdown("### Coach One")
     coach_left = st.selectbox("Coach", all_coaches, key="coach_left")
     block_left = st.selectbox("Block", all_blocks, key="block_left")
 
 with right_select:
-    st.markdown("### Right Coach")
+    st.markdown("### Coach Two")
     coach_right = st.selectbox("Coach", all_coaches, key="coach_right")
     block_right = st.selectbox("Block", all_blocks, key="block_right")
 
