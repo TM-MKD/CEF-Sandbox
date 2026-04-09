@@ -237,6 +237,10 @@ with right_select:
         placeholder="Select block"
     )
 
+if not all([coach_left, block_left, coach_right, block_right]):
+    st.info("Please select both coaches and blocks to begin comparison.")
+    st.stop()
+
 # ===================== GET DATA =====================
 left_df = blocks[block_left]
 right_df = blocks[block_right]
@@ -250,10 +254,6 @@ if left_data.empty:
 
 if right_data.empty:
     st.warning(f"{coach_right} has no data for {block_right}.")
-    st.stop()
-
-if not all([coach_left, block_left, coach_right, block_right]):
-    st.info("Please select both coaches and blocks to begin comparison.")
     st.stop()
 
 left_person = left_data.iloc[0]
