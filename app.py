@@ -1,6 +1,6 @@
 import streamlit as st
 
-from auth import enforce_mkdons_sso
+from auth import enforce_email_login, render_logout_button
 
 st.set_page_config(
     page_title="Home",       
