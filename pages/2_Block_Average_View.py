@@ -1,7 +1,6 @@
 import streamlit as st
 
 from auth import enforce_email_login, render_logout_button
-from auth import enforce_mkdons_sso
 import pandas as pd
 from reportlab.lib import colors
 from io import BytesIO
