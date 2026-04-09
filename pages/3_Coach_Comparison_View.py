@@ -195,8 +195,8 @@ blocks = {}
 for block_name in sorted(df["Block_Name"].unique()):
     blocks[block_name] = df[df["Block_Name"] == block_name].reset_index(drop=True)
 
-all_coaches = ["Select coach"] + sorted(df["Full Name"].dropna().unique().tolist())
-all_blocks = ["Select block"] + sorted(blocks.keys())
+all_coaches = sorted(df["Full Name"].dropna().unique().tolist())
+all_blocks = sorted(blocks.keys())
 
 # ===================== SELECTIONS =====================
 st.markdown("## Select Coaches to Compare")
@@ -205,13 +205,37 @@ left_select, right_select = st.columns(2)
 
 with left_select:
     st.markdown("### Coach One")
-    coach_left = st.selectbox("Coach", all_coaches, key="coach_left", index=0)
-    block_left = st.selectbox("Block", all_blocks, key="block_left", index=0)
+    coach_left = st.selectbox(
+        "Coach",
+        all_coaches,
+        key="coach_left",
+        index=None,
+        placeholder="Select coach"
+    )
+    block_left = st.selectbox(
+        "Block",
+        all_blocks,
+        key="block_left",
+        index=None,
+        placeholder="Select block"
+    )
 
 with right_select:
     st.markdown("### Coach Two")
-    coach_right = st.selectbox("Coach", all_coaches, key="coach_right", index=0)
-    block_right = st.selectbox("Block", all_blocks, key="block_right", index=0)
+    coach_right = st.selectbox(
+        "Coach",
+        all_coaches,
+        key="coach_right",
+        index=None,
+        placeholder="Select coach"
+    )
+    block_right = st.selectbox(
+        "Block",
+        all_blocks,
+        key="block_right",
+        index=None,
+        placeholder="Select block"
+    )
 
 # ===================== GET DATA =====================
 left_df = blocks[block_left]
@@ -226,6 +250,10 @@ if left_data.empty:
 
 if right_data.empty:
     st.warning(f"{coach_right} has no data for {block_right}.")
+    st.stop()
+
+if not all([coach_left, block_left, coach_right, block_right]):
+    st.info("Please select both coaches and blocks to begin comparison.")
     st.stop()
 
 left_person = left_data.iloc[0]
