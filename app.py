@@ -59,13 +59,17 @@ else:
 st.markdown("---")
 
 # ===================== NAVIGATION BUTTONS =====================
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 with col1:
-    if st.button("⚽ Individual Coach View", use_container_width=True):
+    if st.button("⚽ Individual Coach", use_container_width=True):
         st.switch_page("pages/1_Individual_Coach_View.py")
 
 with col2:
-    if st.button("👥 Block Average View", use_container_width=True):
+    if st.button("👥 Block Average", use_container_width=True):
         st.switch_page("pages/2_Block_Average_View.py")
+
+with col3:
+    if st.button("🆚 Coach Comparison", use_container_width=True):
+        st.switch_page("pages/3_Coach_Comparison_View.py")
 
 st.markdown("---")
