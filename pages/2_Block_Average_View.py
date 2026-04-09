@@ -1,5 +1,6 @@
 import streamlit as st
 
+from auth import enforce_email_login, render_logout_button
 from auth import enforce_mkdons_sso
 import pandas as pd
 from reportlab.lib import colors
@@ -12,7 +13,8 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-enforce_mkdons_sso()
+enforce_email_login()
+render_logout_button()
 
 st.markdown(
     """
