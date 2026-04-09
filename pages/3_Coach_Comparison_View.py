@@ -195,8 +195,8 @@ blocks = {}
 for block_name in sorted(df["Block_Name"].unique()):
     blocks[block_name] = df[df["Block_Name"] == block_name].reset_index(drop=True)
 
-all_coaches = sorted(df["Full Name"].dropna().unique())
-all_blocks = sorted(blocks.keys())
+all_coaches = ["Select coach"] + sorted(df["Full Name"].dropna().unique().tolist())
+all_blocks = ["Select block"] + sorted(blocks.keys())
 
 # ===================== SELECTIONS =====================
 st.markdown("## Select Coaches to Compare")
@@ -205,13 +205,13 @@ left_select, right_select = st.columns(2)
 
 with left_select:
     st.markdown("### Coach One")
-    coach_left = st.selectbox("Coach", all_coaches, key="coach_left")
-    block_left = st.selectbox("Block", all_blocks, key="block_left")
+    coach_left = st.selectbox("Coach", all_coaches, key="coach_left", index=0)
+    block_left = st.selectbox("Block", all_blocks, key="block_left", index=0)
 
 with right_select:
     st.markdown("### Coach Two")
-    coach_right = st.selectbox("Coach", all_coaches, key="coach_right")
-    block_right = st.selectbox("Block", all_blocks, key="block_right")
+    coach_right = st.selectbox("Coach", all_coaches, key="coach_right", index=0)
+    block_right = st.selectbox("Block", all_blocks, key="block_right", index=0)
 
 # ===================== GET DATA =====================
 left_df = blocks[block_left]
@@ -220,8 +220,12 @@ right_df = blocks[block_right]
 left_data = left_df[left_df["Full Name"] == coach_left]
 right_data = right_df[right_df["Full Name"] == coach_right]
 
-if left_data.empty or right_data.empty:
-    st.warning("One or both coach/block combinations have no data.")
+if left_data.empty:
+    st.warning(f"{coach_left} has no data for {block_left}.")
+    st.stop()
+
+if right_data.empty:
+    st.warning(f"{coach_right} has no data for {block_right}.")
     st.stop()
 
 left_person = left_data.iloc[0]
