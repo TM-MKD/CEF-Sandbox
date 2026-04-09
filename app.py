@@ -8,7 +8,8 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-enforce_mkdons_sso()
+enforce_email_login()
+render_logout_button()
 
 st.markdown(
     """
