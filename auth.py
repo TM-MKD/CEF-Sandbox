@@ -1,119 +1,64 @@
 import streamlit as st
 
-ALLOWED_EMAIL_DOMAIN = "mkdons.com"
-OIDC_PROVIDER_NAME = "microsoft"
+
+def _load_allowed_emails() -> set[str]:
+    """Load an optional email allowlist from Streamlit secrets."""
+    configured = st.secrets.get("allowed_emails", []) if hasattr(st, "secrets") else []
+
+    if isinstance(configured, str):
+        configured = [configured]
+
+    allowed = {
+        email.strip().lower()
+        for email in configured
+        if isinstance(email, str) and email.strip()
+    }
+
+    return allowed
 
 
-REQUIRED_AUTH_CONFIG = {
-    "auth": ["redirect_uri", "cookie_secret"],
-    "auth.microsoft": ["client_id", "client_secret", "server_metadata_url"],
-}
+def enforce_email_login() -> None:
+    """Simple email login gate shown at app start."""
+    if st.session_state.get("is_authenticated"):
+        return
 
+    st.title("Login")
+    st.info("Sign in to access the Coach Evaluation Framework.")
 
-def _extract_email() -> str:
-    """Safely read the authenticated user's email from Streamlit OIDC profile."""
-    user = st.user
+    email = st.text_input("Email address", placeholder="name@example.com")
 
-    for key in ("email", "upn", "preferred_username"):
-        value = None
+    allowed_emails = _load_allowed_emails()
 
-        if hasattr(user, "get"):
-            value = user.get(key)
+    if st.button("Log in", type="primary"):
+        normalized_email = email.strip().lower()
 
-        if not value:
-            value = getattr(user, key, None)
-
-        if isinstance(value, str) and value.strip():
-            return value.strip().lower()
-
-    return ""
-
-
-def _is_user_logged_in() -> bool:
-    """Handle Streamlit versions where st.user may not expose .is_logged_in as an attribute."""
-    user = st.user
-
-    if hasattr(user, "is_logged_in"):
-        return bool(user.is_logged_in)
-
-    if hasattr(user, "get"):
-        is_logged_in = user.get("is_logged_in")
-        if is_logged_in is not None:
-            return bool(is_logged_in)
-
-    return bool(_extract_email())
-
-
-def _missing_oidc_config() -> list[str]:
-    """Return a list of missing required Streamlit auth keys."""
-    missing = []
-
-    for section, keys in REQUIRED_AUTH_CONFIG.items():
-        section_value = st.secrets.get(section, {}) if hasattr(st, "secrets") else {}
-
-        for key in keys:
-            value = None
-
-            if hasattr(section_value, "get"):
-                value = section_value.get(key)
-            elif isinstance(section_value, dict):
-                value = section_value.get(key)
-
-            if not value:
-                missing.append(f"{section}.{key}")
-
-    return missing
-
-
-def enforce_mkdons_sso() -> None:
-    """Require Microsoft SSO and restrict access to @mkdons.com users only."""
-
-    if not hasattr(st, "login") or not hasattr(st, "logout") or not hasattr(st, "user"):
-        st.error(
-            "This app requires a newer Streamlit version with OIDC support "
-            "(st.login / st.user / st.logout)."
-        )
-        st.stop()
-
-    if not _is_user_logged_in():
-        st.title("Sign in required")
-        st.info("Please sign in with your MK Dons Microsoft account to access this app.")
-
-        missing_config = _missing_oidc_config()
-        if missing_config:
-            st.error(
-                "SSO setup is incomplete. Add the missing keys in `.streamlit/secrets.toml` "
-                "and restart the app."
-            )
-            st.code("\n".join(missing_config), language="text")
+        if not normalized_email or "@" not in normalized_email:
+            st.error("Please enter a valid email address.")
             st.stop()
 
-        if st.button("🔐 Sign in with Outlook / Microsoft", type="primary"):
-            try:
-                st.login(OIDC_PROVIDER_NAME)
-            except Exception:
-                st.error(
-                    "Unable to start Microsoft sign-in. Please verify your Azure app "
-                    "redirect URI, tenant metadata URL, and client credentials."
-                )
+        if allowed_emails and normalized_email not in allowed_emails:
+            st.error("This email address does not have access yet.")
+            st.stop()
 
-        st.stop()
+        st.session_state["is_authenticated"] = True
+        st.session_state["authenticated_email"] = normalized_email
+        st.rerun()
 
-    email = _extract_email()
-
-    if not email.endswith(f"@{ALLOWED_EMAIL_DOMAIN}"):
-        st.error(
-            "Access denied. You must sign in with an @mkdons.com email address "
-            "to use this app."
+    if not allowed_emails:
+        st.caption(
+            "Allowlist is not configured yet. Any valid email can log in for now. "
+            "Add `allowed_emails` in `.streamlit/secrets.toml` when ready."
         )
-        st.write(f"Signed in as: `{email or 'Unknown account'}`")
 
-        if st.button("Sign out"):
-            try:
-                st.logout()
-            except Exception:
-                st.warning("Unable to sign out cleanly in this session. Please refresh the app.")
+    st.stop()
 
-        st.stop()
 
-    st.session_state["authenticated_email"] = email
+def render_logout_button() -> None:
+    """Small utility to let authenticated users sign out."""
+    if not st.session_state.get("is_authenticated"):
+        return
+
+    if st.button("🔓 Log out"):
+        st.session_state["is_authenticated"] = False
+        st.session_state.pop("authenticated_email", None)
+        st.rerun()
