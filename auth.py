@@ -1,5 +1,10 @@
 import streamlit as st
 
+st.set_page_config(
+    page_title="Login",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
 
 def _load_allowed_emails() -> set[str]:
     """Load an optional email allowlist from Streamlit secrets."""
