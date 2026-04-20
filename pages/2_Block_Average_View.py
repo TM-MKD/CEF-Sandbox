@@ -258,13 +258,13 @@ fig = go.Figure(go.Bar(
     x=bar_names,
     y=bar_values,
     marker_color=bar_colours,
-    text=[f"{s} / 36" for s in bar_values],
+    text=[f"{s}" for s in bar_values],
     textposition="outside",
     hovertemplate="%{x}: %{y} / 36<extra></extra>"
 ))
 
 fig.update_layout(
-    yaxis=dict(range=[0, 40], title="Score / 36"),
+    yaxis=dict(range=[0, 36], title="Score / 36"),
     xaxis=dict(title=""),
     plot_bgcolor="rgba(0,0,0,0)",
     paper_bgcolor="rgba(0,0,0,0)",
