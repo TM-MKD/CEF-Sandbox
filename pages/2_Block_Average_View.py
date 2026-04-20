@@ -259,7 +259,7 @@ fig = go.Figure(go.Bar(
     y=bar_values,
     marker_color=bar_colours,
     text=[f"{s}" for s in bar_values],
-    textposition="outside",
+    textposition="inside",
     hovertemplate="%{x}: %{y} / 36<extra></extra>"
 ))
 
