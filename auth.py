@@ -12,6 +12,21 @@ ALLOWED_EMAILS = {
     "matty.mortimer@mkdons.com",
 }
 
+col1, col2 = st.columns([1, 6])
+
+with col1:
+    try:
+        st.image("assets/mkdons_badge.png", width=80)
+    except:
+        pass
+
+with col2:
+    st.markdown(
+        "<h1 style='margin:0; padding:0;'>MK Dons – Coach Evaluation Framework</h1>", 
+        unsafe_allow_html=True
+    )
+
+st.markdown("---")
 
 def enforce_email_login() -> None:
     """Simple email login gate shown at app start."""
