@@ -6,20 +6,11 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-def _load_allowed_emails() -> set[str]:
-    """Load an optional email allowlist from Streamlit secrets."""
-    configured = st.secrets.get("allowed_emails", []) if hasattr(st, "secrets") else []
-
-    if isinstance(configured, str):
-        configured = [configured]
-
-    allowed = {
-        email.strip().lower()
-        for email in configured
-        if isinstance(email, str) and email.strip()
-    }
-
-    return allowed
+ALLOWED_EMAILS = {
+    "martin.prickett@mkdons.com",
+    "thomas.mitchell@mkdons.com",
+    "matty.mortimer@mkdons.com",
+}
 
 
 def enforce_email_login() -> None:
@@ -31,8 +22,7 @@ def enforce_email_login() -> None:
     st.info("Sign in to access the Coach Evaluation Framework.")
 
     email = st.text_input("Email address", placeholder="name@example.com")
-
-    allowed_emails = _load_allowed_emails()
+    _password = st.text_input("Password", type="password", placeholder="Enter password")
 
     if st.button("Log in", type="primary"):
         normalized_email = email.strip().lower()
@@ -41,19 +31,13 @@ def enforce_email_login() -> None:
             st.error("Please enter a valid email address.")
             st.stop()
 
-        if allowed_emails and normalized_email not in allowed_emails:
-            st.error("This email address does not have access yet.")
+        if normalized_email not in ALLOWED_EMAILS:
+            st.error("This email address does not have access.")
             st.stop()
 
         st.session_state["is_authenticated"] = True
         st.session_state["authenticated_email"] = normalized_email
         st.rerun()
-
-    if not allowed_emails:
-        st.caption(
-            "Allowlist is not configured yet. Any valid email can log in for now. "
-            "Add `allowed_emails` in `.streamlit/secrets.toml` when ready."
-        )
 
     st.stop()
 
