@@ -224,9 +224,6 @@ if not selected_coaches:
 
 filtered_block_df = block_df[block_df["Full Name"].isin(selected_coaches)]
 
-st.caption(f"Including {len(selected_coaches)} coach(es):")
-st.write(", ".join(selected_coaches))
-
 # ===================== COACH SCORE BAR CHART =====================
 st.markdown("---")
 st.subheader("Coach Scores Overview")
