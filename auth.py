@@ -1,38 +1,37 @@
 import streamlit as st
 
-st.set_page_config(
-    page_title="Login",
-    layout="centered",
-    initial_sidebar_state="collapsed"
-)
-
 ALLOWED_EMAILS = {
     "martin.prickett@mkdons.com",
     "thomas.mitchell@mkdons.com",
     "matty.mortimer@mkdons.com",
 }
 
-col1, col2 = st.columns([1, 6])
 
-with col1:
-    try:
-        st.image("assets/mkdons_badge.png", width=80)
-    except:
-        pass
+def render_login_header() -> None:
+    """Render the branded header shown above the login form."""
+    col1, col2 = st.columns([1, 6])
 
-with col2:
-    st.markdown(
-        "<h1 style='margin:0; padding:0;'>MK Dons – Coach Evaluation Framework</h1>", 
-        unsafe_allow_html=True
-    )
+    with col1:
+        try:
+            st.image("assets/mkdons_badge.png", width=80)
+        except Exception:
+            pass
 
-st.markdown("---")
+    with col2:
+        st.markdown(
+            "<h1 style='margin:0; padding:0;'>MK Dons – Coach Evaluation Framework</h1>",
+            unsafe_allow_html=True,
+        )
+
+    st.markdown("---")
+
 
 def enforce_email_login() -> None:
     """Simple email login gate shown at app start."""
     if st.session_state.get("is_authenticated"):
         return
 
+    render_login_header()
     st.title("Login")
     st.info("Sign in to access the Coach Evaluation Framework.")
 
@@ -58,11 +57,3 @@ def enforce_email_login() -> None:
 
 
 def render_logout_button() -> None:
-    """Small utility to let authenticated users sign out."""
-    if not st.session_state.get("is_authenticated"):
-        return
-
-    if st.button("🔓 Log out"):
-        st.session_state["is_authenticated"] = False
-        st.session_state.pop("authenticated_email", None)
-        st.rerun()
